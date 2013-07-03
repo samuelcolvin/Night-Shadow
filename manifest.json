@@ -1,0 +1,16 @@
+{
+	"name": "Night Shadow",
+	"description": "World Clock that shows an image of the world in night and day. It also displays your location and the location of your clocks.",
+	"version": "1.12",
+	"app": {
+		"launch": {
+			"local_path": "index.html"
+		}
+	},
+	"icons": {
+		"16": "icon16.png",
+		"48": "icon48.png",
+		"128": "icon128.png"
+	},
+	"permissions": [ "unlimitedStorage", "geolocation", "http://where.yahooapis.com/", "http://developer.yahooapis.com/", "http://api.ipinfodb.com/" ],
+}

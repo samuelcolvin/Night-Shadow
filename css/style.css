@@ -1,0 +1,253 @@
+body {
+	padding: 0px;
+	margin: 0px;
+	background-color: #000;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+table {
+	color: #888;
+	font-size: 100%;
+	table-layout: fixed;
+}
+
+td, th {
+	display: table-cell;
+	vertical-align: top;
+}
+
+p {
+	margin: 0px
+}
+
+form {
+	margin: 0px;
+}
+
+form p{
+	margin: 4px;
+}
+
+.top_left{
+	position: absolute;
+	top: 0px;
+	left: 0px
+}
+
+.data{
+	text-align: left;
+	color: #c00;
+	width: 200px;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	border-radius: 4px;
+	font-family: courier;
+	font-size: 80%;
+}
+
+.line{
+	height: 16px;
+}
+
+.settings_button_outer{
+	width: 100px;
+	height: 30px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	border-radius: 4px;
+}
+
+.settings_button_inner{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	background-image: url(../media/spanner.png);
+}
+
+.unselectable{
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.black_overlay{
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 1001;
+}
+
+#settings_window {
+	display: none;
+	width: 730px;
+	height: 472px;
+	padding: 0px;
+	background: transparent;
+	z-index: 1002;
+	font-family: arial,sans-serif;
+	color: white;
+	text-align: left;
+	font-size: 80%;
+}
+
+.settings_tabs{
+	margin-left: 18px;
+	height: 27px;
+	text-align: center;
+	color: #ccc;
+}
+
+.settings_tabs  ul{
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.settings_tabs li{
+	display: table-cell;
+	width: 190px; 
+	height: 27px;
+	vertical-align: bottom;
+	position: relative;
+}
+
+.settings_tabs li a{
+	background-position: bottom center;
+	background-repeat: no-repeat;
+	text-decoration: none;
+	display: block;
+	margin-left: -10;
+	margin-right: -10;
+}
+
+a{
+	color: white;
+}
+
+.tab_selected{
+	background-image: url(../media/tab_selected.png);
+	height: 27px;
+}
+
+.tab_shadow_left{
+	background-image: url(../media/tab_shadow_left.png);
+	height: 22px;
+}
+
+.tab_shadow_right{
+	background-image: url(../media/tab_shadow_right.png);
+	height: 22px;
+}
+
+.tab_shadow_both{
+	background-image: url(../media/tab_shadow_both.png);
+	height: 22px;
+}
+
+.tab_shadow_none{
+	background-image: url(../media/tab_shadow_none.png);
+	height: 22px;
+}
+
+.settings_body{
+	width: 100%px;
+	height: 445;
+	padding: 0px;
+	border-radius: 10px;
+	background: #666 url('../media/carbonfibre.jpg') no-repeat center top;
+	overflow: hidden;
+}
+
+.settings_all{
+	height: 360px;
+	padding: 20px;
+	margin: 0px;
+	position: relative;
+	margin: 0px;
+}
+
+.scroller{
+	overflow: auto;
+	height: 380px;
+}
+
+.settings_time{
+	display: none;
+}
+
+.control_group{
+	width: 93%;
+	border-radius: 8px;
+	padding: 5px 20px;
+	margin: 0px 0px 10px 0px;
+	background-color: rgba(0, 0, 0, 0.6)
+}
+
+.input_box{
+	width: 230px;
+}
+
+.setting_value{
+	color: white;
+	width: 255px;
+	height: 18px;
+	overflow: hidden;
+}
+
+.settings_val_comment{
+	overflow: visible;
+}
+
+.user_info{
+	color: white;
+	width: 180px;
+	max-height: 18px;
+	overflow: hidden;
+}
+
+.add_remove{
+	color: white;
+}
+
+.invisible{
+	display: none;
+}
+
+.buttons{
+	margin: 5px;
+	margin-right: 20px;
+	height: 26px;
+	font-size: 120%;
+	text-align: right;
+}
+
+.button_basic{
+	height: 100%;
+}
+
+.form_sub_part{
+	border-top: 1px solid #ddd;
+	padding-top: 4px;
+	margin-top: 12px;
+}
+
+.para{
+	margin-top: 5px;
+}
+
+.grey{
+	color: #888;
+}

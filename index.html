@@ -1,0 +1,456 @@
+<html>
+<head>
+	<title>Night Shadow</title>
+	<link rel="SHORTCUT ICON" href="icon16.png">
+	<script src="js/main.js"></script>
+	<script src="js/context.js"></script>
+	<script src="js/settings.js"></script>
+	<script src="js/settings_clocks.js"></script>
+	<script src="js/settings_time.js"></script>
+	<script src="js/settings_about.js"></script>
+	<script src="js/daynightmap.js"></script>
+	<script src="js/clocks.js"></script>
+	<script src="js/location.js"></script>
+	<script src="js/timezones.js"></script>
+	<script src="js/datetime.js"></script>
+	<script src="js/datepicker.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/datepicker.css"/>
+</head>
+<body onload="start()" onresize="update()" align="center">
+	<canvas id="map"></canvas>
+	
+	<canvas id="clock0" class="top_left invisible"></canvas>
+	<canvas id="clock1" class="top_left invisible"></canvas>
+	<canvas id="clock2" class="top_left invisible"></canvas>
+	<canvas id="clock3" class="top_left invisible"></canvas>
+	<canvas id="clock4" class="top_left invisible"></canvas>
+	<canvas id="clock5" class="top_left invisible"></canvas>
+	
+	<canvas id="pin0" class="top_left invisible"></canvas>
+	<canvas id="pin1" class="top_left invisible"></canvas>
+	<canvas id="pin2" class="top_left invisible"></canvas>
+	<canvas id="pin3" class="top_left invisible"></canvas>
+	<canvas id="pin4" class="top_left invisible"></canvas>
+	<canvas id="pin5" class="top_left invisible"></canvas>
+	
+	<div id="data" class="data">
+		<div class="line" id="live_pos"></div>
+		<div class="line" id="live_tz"></div>
+		<div class="line" id="live_time"></div>
+		<div class="line" id="live_place"></div>
+		<div class="line" id="live_county"></div>
+	</div>
+	
+	<div id="button" class="settings_button_outer">
+		<div class="settings_button_inner" onclick="settings()" onmouseover="btn_on()" onmouseout="btn_off()"></div>
+	</div>
+	
+	
+	<div id="fade" class="black_overlay unselectable" align="center" onclick="maybe_close()">
+		<div id="settings_window" onmouseover="on_settings_window=true;" onmouseout="on_settings_window=false;">
+			<div class="settings_tabs">
+				<ul>
+					<li id="tab_li_1" style="z-index:2;"> <a href="#" id="tab_1" onclick="change_tab(1)" class="tab_selected">Clocks</a> </li>
+					<li id="tab_li_2" style="z-index:1;"> <a href="#" id="tab_2" onclick="change_tab(2)" class="tab_shadow_left">Time</a> </li>
+					<li id="tab_li_3" style="z-index:0;"> <a href="#" id="tab_3" onclick="change_tab(3)" class="tab_shadow_left">About</a> </li>
+				</ul>
+			</div>
+			<div class="settings_body">
+				<div id="settings_1" class="settings_all">
+					<div class="scroller">
+						<div class="control_group"  id="c1_div">
+							<form>
+								<input type="radio" name="choose" id="c1_rd_select" checked="" onclick="enable_search_select('c1','select')">
+								<label for="c1_rd_select">
+								<select class="input_box" onchange="sel_changed('c1')" id="c1_select"></select>
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								</label>
+								<input type="radio" name="choose" id="c1_rd_search" onclick="enable_search_select('c1','search')">
+								<label for="c1_rd_search">
+								Search: <input type="text" id="c1_tb_search" onchange="search('c1')" disabled="">
+								<input type="button" id="c1_btn_search" value="Search" onclick="search('c1')" disabled="">
+								</label>
+								<canvas id="c1_spinner" width="20" height="20"></canvas>
+							</form>
+							<table>
+								<tr>
+									<td width="80px">Place:</td>
+									<td><div class="setting_value" id="c1_place"></div></td>
+									<td width="80px">Timezone:</td>
+									<td><div class="setting_value" id="c1_timezone"></div></td>
+								</tr>
+								<tr>
+									<td>Country:</td>
+									<td><div class="setting_value" id="c1_country"></div></td>
+									<td>Location: </td>
+									<td><div class="setting_value" id="c1_location"></div></td>
+								</tr>
+								<tr>
+									<td>Comment:</td>
+									<td><div class="setting_value settings_val_comment" id="c1_comment"></div></td>
+									<td>DST:</td>
+									<td><div class="setting_value" id="c1_dst"></div></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><div class="setting_value"></div></td>
+									<td>Source:</td>
+									<td><div class="setting_value" id="c1_source"></div></td>
+								</tr>
+							</table>
+						</div>
+								
+						<div class="control_group"  id="c2_div">
+							<form>
+								<input type="radio" name="choose" id="c2_rd_select" checked="" onclick="enable_search_select('c2','select')">
+								<label for="c2_rd_select">
+								<select class="input_box" onchange="sel_changed('c2')" id="c2_select"></select>
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								</label>
+								<input type="radio" name="choose" id="c2_rd_search" onclick="enable_search_select('c2','search')">
+								<label for="c2_rd_search">
+								Search: <input type="text" id="c2_tb_search" onchange="search('c2')" disabled="">
+								<input type="button" id="c2_btn_search" value="Search" onclick="search('c2')" disabled="">
+								</label>
+								<canvas id="c2_spinner" width="20" height="20"></canvas>
+							</form>
+							<table>
+								<tr>
+									<td width="80px">Place:</td>
+									<td><div class="setting_value" id="c2_place"></div></td>
+									<td width="80px">Timezone:</td>
+									<td><div class="setting_value" id="c2_timezone"></div></td>
+								</tr>
+								<tr>
+									<td>Country:</td>
+									<td><div class="setting_value" id="c2_country"></div></td>
+									<td>Location: </td>
+									<td><div class="setting_value" id="c2_location"></div></td>
+								</tr>
+								<tr>
+									<td>Comment:</td>
+									<td><div class="setting_value settings_val_comment" id="c2_comment"></div></td>
+									<td>DST:</td>
+									<td><div class="setting_value" id="c2_dst"></div></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><div class="setting_value"></div></td>
+									<td>Source:</td>
+									<td><div class="setting_value" id="c2_source"></div></td>
+								</tr>
+							</table>
+						</div>
+						
+						<div class="control_group"  id="c3_div">
+							<form>
+								<input type="radio" name="choose" id="c3_rd_select" checked="" onclick="enable_search_select('c3','select')">
+								<label for="c3_rd_select">
+								<select class="input_box" onchange="sel_changed('c3')" id="c3_select"></select>
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								</label>
+								<input type="radio" name="choose" id="c3_rd_search" onclick="enable_search_select('c3','search')">
+								<label for="c3_rd_search">
+								Search: <input type="text" id="c3_tb_search" onchange="search('c3')" disabled="">
+								<input type="button" id="c3_btn_search" value="Search" onclick="search('c3')" disabled="">
+								</label>
+								<canvas id="c3_spinner" width="20" height="20"></canvas>
+							</form>
+							<table>
+								<tr>
+									<td width="80px">Place:</td>
+									<td><div class="setting_value" id="c3_place"></div></td>
+									<td width="80px">Timezone:</td>
+									<td><div class="setting_value" id="c3_timezone"></div></td>
+								</tr>
+								<tr>
+									<td>Country:</td>
+									<td><div class="setting_value" id="c3_country"></div></td>
+									<td>Location: </td>
+									<td><div class="setting_value" id="c3_location"></div></td>
+								</tr>
+								<tr>
+									<td>Comment:</td>
+									<td><div class="setting_value settings_val_comment" id="c3_comment"></div></td>
+									<td>DST:</td>
+									<td><div class="setting_value" id="c3_dst"></div></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><div class="setting_value"></div></td>
+									<td>Source:</td>
+									<td><div class="setting_value" id="c3_source"></div></td>
+								</tr>
+							</table>
+						</div>
+						
+						<div class="control_group"  id="c4_div">
+							<form>
+								<input type="radio" name="choose" id="c4_rd_select" checked="" onclick="enable_search_select('c4','select')">
+								<label for="c4_rd_select">
+								<select class="input_box" onchange="sel_changed('c4')" id="c4_select"></select>
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								</label>
+								<input type="radio" name="choose" id="c4_rd_search" onclick="enable_search_select('c4','search')">
+								<label for="c4_rd_search">
+								Search: <input type="text" id="c4_tb_search" onchange="search('c4')" disabled="">
+								<input type="button" id="c4_btn_search" value="Search" onclick="search('c4')" disabled="">
+								</label>
+								<canvas id="c4_spinner" width="20" height="20"></canvas>
+							</form>
+							<table>
+								<tr>
+									<td width="80px">Place:</td>
+									<td><div class="setting_value" id="c4_place"></div></td>
+									<td width="80px">Timezone:</td>
+									<td><div class="setting_value" id="c4_timezone"></div></td>
+								</tr>
+								<tr>
+									<td>Country:</td>
+									<td><div class="setting_value" id="c4_country"></div></td>
+									<td>Location: </td>
+									<td><div class="setting_value" id="c4_location"></div></td>
+								</tr>
+								<tr>
+									<td>Comment:</td>
+									<td><div class="setting_value settings_val_comment" id="c4_comment"></div></td>
+									<td>DST:</td>
+									<td><div class="setting_value" id="c4_dst"></div></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><div class="setting_value"></div></td>
+									<td>Source:</td>
+									<td><div class="setting_value" id="c4_source"></div></td>
+								</tr>
+							</table>
+						</div>
+						
+						<div class="control_group"  id="c5_div">
+							<form>
+								<input type="radio" name="choose" id="c5_rd_select" checked="" onclick="enable_search_select('c5','select')">
+								<label for="c5_rd_select">
+								<select class="input_box" onchange="sel_changed('c5')" id="c5_select"></select>
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								</label>
+								<input type="radio" name="choose" id="c5_rd_search" onclick="enable_search_select('c5','search')">
+								<label for="c5_rd_search">
+								Search: <input type="text" id="c5_tb_search" onchange="search('c5')" disabled="">
+								<input type="button" id="c5_btn_search" value="Search" onclick="search('c5')" disabled="">
+								</label>
+								<canvas id="c5_spinner" width="20" height="20"></canvas>
+							</form>
+							<table>
+								<tr>
+									<td width="80px">Place:</td>
+									<td><div class="setting_value" id="c5_place"></div></td>
+									<td width="80px">Timezone:</td>
+									<td><div class="setting_value" id="c5_timezone"></div></td>
+								</tr>
+								<tr>
+									<td>Country:</td>
+									<td><div class="setting_value" id="c5_country"></div></td>
+									<td>Location: </td>
+									<td><div class="setting_value" id="c5_location"></div></td>
+								</tr>
+								<tr>
+									<td>Comment:</td>
+									<td><div class="setting_value settings_val_comment" id="c5_comment"></div></td>
+									<td>DST:</td>
+									<td><div class="setting_value" id="c5_dst"></div></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><div class="setting_value"></div></td>
+									<td>Source:</td>
+									<td><div class="setting_value" id="c5_source"></div></td>
+								</tr>
+							</table>
+						</div>
+						
+						<div class="control_group"  id="c6_div">
+							<form>
+								<input type="radio" name="choose" id="c6_rd_select" checked="" onclick="enable_search_select('c6','select')">
+								<label for="c6_rd_select">
+								<select class="input_box" onchange="sel_changed('c6')" id="c6_select"></select>
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								</label>
+								<input type="radio" name="choose" id="c6_rd_search" onclick="enable_search_select('c6','search')">
+								<label for="c6_rd_search">
+								Search: <input type="text" id="c6_tb_search" onchange="search('c6')" disabled="">
+								<input type="button" id="c6_btn_search" value="Search" onclick="search('c6')" disabled="">
+								</label>
+								<canvas id="c6_spinner" width="20" height="20"></canvas>
+							</form>
+							<table>
+								<tr>
+									<td width="80px">Place:</td>
+									<td><div class="setting_value" id="c6_place"></div></td>
+									<td width="80px">Timezone:</td>
+									<td><div class="setting_value" id="c6_timezone"></div></td>
+								</tr>
+								<tr>
+									<td>Country:</td>
+									<td><div class="setting_value" id="c6_country"></div></td>
+									<td>Location: </td>
+									<td><div class="setting_value" id="c6_location"></div></td>
+								</tr>
+								<tr>
+									<td>Comment:</td>
+									<td><div class="setting_value settings_val_comment" id="c6_comment"></div></td>
+									<td>DST:</td>
+									<td><div class="setting_value" id="c6_dst"></div></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><div class="setting_value"></div></td>
+									<td>Source:</td>
+									<td><div class="setting_value" id="c6_source"></div></td>
+								</tr>
+							</table>
+						</div>
+						
+						<a id="remove_clock" class="add_remove" href="javascript:void(0)" onclick="remove_clock()">remove clock</a>
+						&nbsp
+						<a id="add_clock" class="add_remove" href="javascript:void(0)" onclick="add_clock()">add clock</a>
+					</div>
+				</div>
+				<div id="settings_2" class="settings_all settings_time">
+					<div class="control_group">
+						<p>Enter the date and time you would like to display along with the rate you would like time to process at. The time zone is that of your primary clock (<span id="primary_tz"></span>).</p>
+						<form>
+							<div class="form_sub_part">
+								<label for="date">Date :</label>
+								<input type="text" class="format-d-m-y" id="date_input" maxlength="10" size="10" 
+								onchange="settings_time.update_dt()" />
+							</div>
+							<div class="form_sub_part">
+								<label for="time">Time :</label>
+								<input type="text" id="time_input" value="00:00" maxlength="8" size="10"
+								onchange="settings_time.update_dt()" />
+								<font color="#888">(HH:MM or HH:MM:SS, AM/PM or 24hr eg. 15:31 or 3:31 pm)</font>
+							</div>
+							<div class="form_sub_part">
+								<p>Choose the rate that time runs at:</p>							
+								<table>
+									<tr>
+										<td width="150px">
+											<input type="radio" name="rate" id="rate_zero" value="0"
+											onclick="settings_time.update_dt()" checked="">
+											<label for="rate_zero">Zero</label>
+										</td>
+										<td width="150px">
+											<input type="radio" name="rate" id="rate_normal" value="1"
+											onclick="settings_time.update_dt()">
+											<label for="rate_normal">Normal</label>
+										</td>
+										<td width="150px">
+											<input type="radio" name="rate" id="rate_min" value="60"
+											onclick="settings_time.update_dt()">
+											<label for="rate_min">1 minute / second</label>
+										</td>
+									</tr>
+									<tr>
+										<td width="150px">
+											<input type="radio" name="rate" id="rate_10m" value="600"
+											onclick="settings_time.update_dt()">
+											<label for="rate_10m">10 minutes / second</label>
+										</td>
+										<td width="150px">
+											<input type="radio" name="rate" id="rate_30m" value="1800"
+											onclick="settings_time.update_dt()">
+											<label for="rate_30m">30 minutes / second</label>
+										</td>
+										<td width="150px">
+											<input type="radio" name="rate" id="rate_hour" value="3600"
+											onclick="settings_time.update_dt()">
+											<label for="rate_hour">1 hour / second</label>
+										</td>
+									</tr>
+									<tr>
+										<td width="150px">
+											<input type="radio" name="rate" id="rate_1d" value="86400"
+											onclick="settings_time.update_dt()">
+											<label for="rate_1d">1 day / second</label>
+										</td>
+										<td width="150px">
+											<input type="radio" name="rate" id="rate_10d" value="864000"
+											onclick="settings_time.update_dt()">
+											<label for="rate_10d">10 days / second</label>
+										</td>
+										<td width="150px">
+											<input type="radio" name="rate" id="rate_30d" value="2592000"
+											onclick="settings_time.update_dt()">
+											<label for="rate_30d">30 days / second</label>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</form>
+					</div>
+					<div class="control_group">
+						<div class="para">Virtual Time:</div>
+						<div class="para">
+							<div style="width: 300px; float: left;"><span class="grey">Start Date: </span><span id="calc_date_time"></span></div>
+						</div>
+						<div class="para"><span class="grey">Rate: </span><span id="calc_rate"></span></div>
+						<div class="para"><span class="grey">Live Virtual Time: </span><span id="live_virtual_time"></span></div>
+					</div>
+				</div>
+				<div id="settings_3" class="settings_all settings_time">
+					<div class="scroller">
+						<div class="control_group">
+							<center>
+								<h2 id="app_name"></h2>
+								<p class="para"><span class="grey">Version: </span><span id="app_version"></span></p>
+								<p class="para"><span class="grey">Developed by: </span><span>Samuel Colvin <a href="http://www.scolvin.com" target="_blank">www.scolvin.com</a></span></p>
+								<p class="para">Copyright (c) 2012 Samuel Colvin. All rights reserved.</p>
+								<p class="para"><span class="grey">Released under the creative commons </span><span>
+									<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode" target="_blank">Attribution-NonCommercial-ShareAlike 3.0 license </a>
+								</span></p>
+							</center>
+							<p class="para">References and Tools:</p>
+							<div class="grey">
+							<p><a href="http://developer.yahoo.com/geo/placefinder/" target="_blank">Yahoo PlaceFinder</a> - interprets Clock searches.</p>
+							<p><a href="http://developer.yahoo.com/util/timeservice/V1/getTime.html" target="_blank">Yahoo TimeServce</a> - checks computer time.</p>
+							<p><a href="http://ipinfodb.com" target="_blank">ipinfodb.com</a> - IP address to location service.</p>
+							<p><a href="http://www.fourmilab.ch/cgi-bin/Earth" target="_blank">John Walker</a> - Original day/night boundary coordinates code which I converted from C++ to Javascript.</p>
+							<p><a href="http://www.iana.org/time-zones" target="_blank">tz data</a> - Defailt time zones list and DST switch dates.</p>
+							<p><a href="http://visibleearth.nasa.gov/view_cat.php?categoryID=1484" target="_blank">NASA Visible Earth</a> - images of the earth.</p>
+							<p><a href="http://geonames.org" target="_blank">Geonames.org</a> - reverse geoencoding for mouse position.</p>
+							</div>
+						</div>
+						
+						<div class="control_group">
+							<p class="para">User Information:</p>
+							<table>
+								<tr>
+									<td width="160px">Timezone:</td>
+									<td><div class="user_info" id="user_tz">unknown</div></td>
+									<td width="160px">Computer Time:</td>
+									<td><div class="user_info" id="user_time_error">unknown</div></td>
+								</tr>
+								<tr>
+									<td>City:</td>
+									<td><div class="user_info" id="user_city">unknown</div></td>
+									<td>IP address:</td>
+									<td><div class="user_info" id="user_ip">unknown</div></td>
+								</tr>
+								<tr>
+									<td>Latitude:</td>
+									<td><div class="user_info" id="user_lat">unknown</div></td>
+									<td>Longitude:</td>
+									<td><div class="user_info" id="user_long">unknown</div></td>
+								</tr>
+							</table>
+							<div id="user_console" class="grey"></div>
+						</div>
+					</div>
+				</div>
+				<div id="bottom_buttons" class="buttons unselectable"> </div>
+				</div>
+			</div>
+	</div>
+</body>
+</html>
